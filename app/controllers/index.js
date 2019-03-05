@@ -218,8 +218,46 @@ var mainBetaRoute = {
   width: 4
 }
 
-var points = [];
+//var points = [];
 
+//Example code
+
+data = [];
+    var url = "http://maps.google.com/?saddr=" 
+            + origin + "&daddr=" 
+            + destination + "&doflg=ptk&hl=en&output=kml"
+    xhr = Titanium.Network.createHTTPClient();
+    xhr.open('GET',url);
+    Ti.API.info('>>> go get data for Rgeocode! ...URL: '+url);
+    xhr.onload = function(){
+        // Now parse the XML 
+        var xml = this.responseXML;
+         var points = [];
+        var coords = xml.documentElement.getElementsByTagName("LineString");
+        for(var cc=0; cc < coords.length; cc++) {
+            var line = coords.item(cc);
+            var str = line.firstChild.text.split(" ");
+            for(dd = 0; dd < str.length; dd++) {
+                var loc = str[dd].split(',');
+                if(loc[0] && loc[1]) {
+                    points.push({latitude: loc[1], 
+                         longitude: loc[0]});
+                }
+            }
+        }
+        var route = {
+                name:"boston",
+                points:points,
+                color:"red",
+                width:4
+            };
+
+        // add a route
+        map.addRoute(route);
+    };    
+    xhr.send();
+    
+//Example code ends
 
 
 domMap.addRoute(mainBetaRoute)

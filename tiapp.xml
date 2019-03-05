@@ -2,7 +2,10 @@
 <ti:app 
   xmlns:ti="http://ti.appcelerator.org">
   <id>com.appcelerator.sample.mapping</id>
-  <guid>8ceb5381-d2f4-4617-9eee-6d4e3eba80ae</guid>
+  <!-- GUID MACBOOK -->
+  <guid>a90fbcea-f722-4784-9444-5b7e2d9558e1</guid>
+
+  <!-- GUID WINDOWS -->
   <name>Geocoder</name>
   <version>2.0.0</version>
   <publisher>Appcelerator, Inc.</publisher>
