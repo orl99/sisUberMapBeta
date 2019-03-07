@@ -95,7 +95,7 @@ function reverseGeocode(coords, center) {
     location.title = e.places[0].address;
 
     // Drop or move the annotation
-    setAnnotation(location);
+    // setAnnotation(location);
 
     // center the map on the annotation
     if (center) {
@@ -210,54 +210,124 @@ function centerMap(location) {
  */
 
 var domMap = $.map
+var i = 0;
+setInterval(function(){
+  Ti.API.info('SetInterval Init: ');
+  Ti.API.info('SetInterval Init:' + multiCoords[i].latitude);
+  Ti.API.info('SetInterval Init: ' + multiCoords[i].longitude);
+  changeAnotationValue()
+  i++;
+}, 100000000)
 
-var mainBetaRoute = {
-  name: 'Example sisRoute Beta',
-  points: points,
-  color: "#c60000",
-  width: 4
+function changeAnotationValue(){
+  // alert("click! dinamicAnotation.title = " + dinamicAnotation.title);
+
+  dinamicAnotation.title = "Found it!";
+
+  dinamicAnotation.subtitle = "Works!";
+  // dinamicAnotation.latitude = 62.40;
+  // dinamicAnotation.longitude = 23.420;
+  dinamicAnotation.latitude = multiCoords[i].latitude;
+  dinamicAnotation.longitude =  multiCoords[i].longitude;
 }
+
+
+var matrix2dAnimation = Ti.UI.create2DMatrix();
+matrix2dAnimation = matrix2dAnimation.rotate(20);
+matrix2dAnimation = matrix2dAnimation.scale(1.1);
+
+var aniA = Ti.UI.createAnimation({
+  transform: matrix2dAnimation,
+  duration: 1000,
+  autoreverse: true,
+  // repeat: 3
+})
+
+var dinamicAnotation = map.createAnnotation({
+  latitude: 25.703531,
+  longitude: -100.315530,
+  title: "Anno 1",
+  subtitle: "Subtitle 1", 
+  image: 'image/sisUberCarBeta2.png',
+  // centerOffset: true,
+  // markerAnimatesWhenAdded: true
+
+});
+
+// dinamicAnotation.animate(aniA);
+
+var multiCoords = [ 
+  {latitude: 25.703531, longitude: -100.315530}, 
+  {latitude: 62.40, longitude: 23.420}, 
+  {latitude: 53.40, longitude: 24.420}, 
+  {latitude: 54.40, longitude: 25.420}, 
+  {latitude: 55.40, longitude: 26.420}, 
+  {latitude: 56.40, longitude: 27.420}, 
+  {latitude: 57.40, longitude: 28.420}, 
+  {latitude: 58.40, longitude: 29.420}, 
+  {latitude: 59.40, longitude: 30.420}, 
+  {latitude: 60.40, longitude: 31.420}
+];
+
+
+var dinamicAnotation2 = map.createAnnotation({
+  latitude: 52.42,
+  longitude: 13.205,
+  title: "Anno 2",
+  subtitle: "Subtitle 2"
+});
+
+$.map.setAnnotations([dinamicAnotation, dinamicAnotation2])
 
 //var points = [];
 
 //Example code
 
-data = [];
-    var url = "http://maps.google.com/?saddr=" 
-            + origin + "&daddr=" 
-            + destination + "&doflg=ptk&hl=en&output=kml"
-    xhr = Titanium.Network.createHTTPClient();
-    xhr.open('GET',url);
-    Ti.API.info('>>> go get data for Rgeocode! ...URL: '+url);
-    xhr.onload = function(){
-        // Now parse the XML 
-        var xml = this.responseXML;
-         var points = [];
-        var coords = xml.documentElement.getElementsByTagName("LineString");
-        for(var cc=0; cc < coords.length; cc++) {
-            var line = coords.item(cc);
-            var str = line.firstChild.text.split(" ");
-            for(dd = 0; dd < str.length; dd++) {
-                var loc = str[dd].split(',');
-                if(loc[0] && loc[1]) {
-                    points.push({latitude: loc[1], 
-                         longitude: loc[0]});
-                }
-            }
-        }
-        var route = {
-                name:"boston",
-                points:points,
-                color:"red",
-                width:4
-            };
+// data = [];
 
-        // add a route
-        map.addRoute(route);
-    };    
-    xhr.send();
+  // var mainBetaRoute = {
+  //   name: 'Example sisRoute Beta',
+  //   points: points,
+  //   color: "#c60000",
+  //   width: 4
+  // }
+
+
+    // var url = "http://maps.google.com/?saddr=" 
+    //         + origin + "&daddr=" 
+    //         + destination + "&doflg=ptk&hl=en&output=kml"
+    // xhr = Titanium.Network.createHTTPClient();
+    // xhr.open('GET',url);
+    // Ti.API.info('>>> go get data for Rgeocode! ...URL: '+url);
+    // xhr.onload = function(){
+    //     // Now parse the XML 
+    //     var xml = this.responseXML;
+    //      var points = [];
+    //     var coords = xml.documentElement.getElementsByTagName("LineString");
+    //     for(var cc=0; cc < coords.length; cc++) {
+    //         var line = coords.item(cc);
+    //         var str = line.firstChild.text.split(" ");
+    //         for(dd = 0; dd < str.length; dd++) {
+    //             var loc = str[dd].split(',');
+    //             if(loc[0] && loc[1]) {
+    //                 points.push({latitude: loc[1], 
+    //                      longitude: loc[0]});
+    //             }
+    //         }
+    //     }
+    //     var route = {
+    //             name:"boston",
+    //             points:points,
+    //             color:"red",
+    //             width:4
+    //         };
+
+    //     // add a route
+    //     map.addRoute(route);
+    // };    
+    // xhr.send();
     
 //Example code ends
 
 
-domMap.addRoute(mainBetaRoute)
+// domMap.addRoute(mainBetaRoute)

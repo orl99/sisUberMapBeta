@@ -34,6 +34,7 @@
 
 				<!-- Maps can contain child views as overlays -->
 				<Button class="typeBtn" onClick="changeMapType">Map Type</Button>
+				<Button class="typeBtn2" onClick="changeAnotationValue">change Value</Button>
 
 			</View>
 
