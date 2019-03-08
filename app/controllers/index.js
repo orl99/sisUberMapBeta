@@ -210,51 +210,57 @@ function centerMap(location) {
  */
 
 var domMap = $.map
-var i = 0;
-setInterval(function(){
-  Ti.API.info('SetInterval Init: ');
-  Ti.API.info('SetInterval Init:' + multiCoords[i].latitude);
-  Ti.API.info('SetInterval Init: ' + multiCoords[i].longitude);
-  changeAnotationValue()
-  i++;
-}, 100000000)
 
-function changeAnotationValue(){
-  // alert("click! dinamicAnotation.title = " + dinamicAnotation.title);
+var matrixAni = Ti.UI.create2DMatrix();
 
-  dinamicAnotation.title = "Found it!";
 
-  dinamicAnotation.subtitle = "Works!";
-  // dinamicAnotation.latitude = 62.40;
-  // dinamicAnotation.longitude = 23.420;
-  dinamicAnotation.latitude = multiCoords[i].latitude;
-  dinamicAnotation.longitude =  multiCoords[i].longitude;
+function changeAnotationValue(co){
+  // Ti.API.info('co: ' + co)
+
+  matrixAni = matrixAni.translate(100, 0);
+
+  var carAnimation = Ti.UI.createAnimation({
+      transform: matrixAni,
+      duration: 2000
+  });
+
+
+  $.map.setAnnotations([dinamicAnotation, dinamicAnotation2])
+  // dinamicAnotation2.animate(carAnimation);
+  
+  // dinamicAnotation2.latitude = multiCoords[co].latitude;
+  // dinamicAnotation2.longitude =  multiCoords[co].longitude;
+
+  // var nextWindow = Alloy.createController('secondView').getView();
+
+  // nextWindow.open();
+  
 }
 
 
-var matrix2dAnimation = Ti.UI.create2DMatrix();
-matrix2dAnimation = matrix2dAnimation.rotate(20);
-matrix2dAnimation = matrix2dAnimation.scale(1.1);
+// var matrix2dAnimation = Ti.UI.create2DMatrix();
+// matrix2dAnimation = matrix2dAnimation.rotate(20);
+// matrix2dAnimation = matrix2dAnimation.scale(1.1);
+// matrix2dAnimation = matrix2dAnimation.tranlate(50, -50)
 
-var aniA = Ti.UI.createAnimation({
-  transform: matrix2dAnimation,
-  duration: 1000,
-  autoreverse: true,
-  // repeat: 3
-})
+
+// var aniA = Ti.UI.createAnimation({
+//   transform: matrix2dAnimation,
+//   duration: 3000,
+//   // autoreverse: true,
+// })
 
 var dinamicAnotation = map.createAnnotation({
   latitude: 25.703531,
   longitude: -100.315530,
   title: "Anno 1",
   subtitle: "Subtitle 1", 
-  image: 'image/sisUberCarBeta2.png',
-  // centerOffset: true,
-  // markerAnimatesWhenAdded: true
+  markerAnimatesWhenAdded: true
+  // image: '//images/sisUberCarBeta2.png'
 
 });
 
-// dinamicAnotation.animate(aniA);
+
 
 var multiCoords = [ 
   {latitude: 25.703531, longitude: -100.315530}, 
@@ -269,15 +275,40 @@ var multiCoords = [
   {latitude: 60.40, longitude: 31.420}
 ];
 
+var newAutoAnnoView = Ti.UI.createView({
+  width: 55,
+  height: Ti.UI.SIZE,
+  backgroundImage: '//images/sisUberCarBeta2.png'
+})
+
 
 var dinamicAnotation2 = map.createAnnotation({
+  customView: newAutoAnnoView,
   latitude: 52.42,
   longitude: 13.205,
   title: "Anno 2",
-  subtitle: "Subtitle 2"
+  subtitle: "Subtitle 2",
+  animate: true
+  // showAsMarker: true
 });
 
-$.map.setAnnotations([dinamicAnotation, dinamicAnotation2])
+// $.map.setAnnotations([dinamicAnotation, dinamicAnotation2])
+
+var i = 0;
+// setInterval(function(){
+//   Ti.API.info('SetInterval Init: ');
+//   changeAnotationValue(i)
+
+//     if(i >= multiCoords.length){
+//       i = 0
+//     }else{
+//       i++;
+//     }
+// }, 4000)
+
+
+
+
 
 //var points = [];
 
